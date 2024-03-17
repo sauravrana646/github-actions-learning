@@ -1,0 +1,24 @@
+name: terraform-plan
+
+on:
+  pull_request:
+    branches: [dev]
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA}}
+    defaults:
+      run:
+        working-directory: Infrastructure/terraform/gcp/iac
+    steps:
+      - uses: .github/workflows/terraform.yaml
+        with:
+          tf-cloud-token: ${{secrets.TERRAFORM_API_TOKEN}}
+
+      # generate plain output
+      # - run: terraform show -no-color terraform.plan > terraform.text
+
+      # - run : gh pr comment ${{ github.event.number }} --body-file terraform.text

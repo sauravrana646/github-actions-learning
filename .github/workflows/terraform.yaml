@@ -1,0 +1,52 @@
+# name: terraform-plan
+
+# on:
+#   pull_request:
+#     branches: [main]
+
+
+
+# jobs:
+#   env:
+#     GOOGLE_CREDENTIALS:${{ secrets.GCP_SA}}  
+#   terraform-plan:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: Infrastructure/terraform/gcp/iac
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: hashicorp/setup-terraform@v3
+#         with:
+#           cli_config_credentials_token: ${{secrets.TERRAFORM_API_TOKEN}}
+#           terraform_wrapper: false
+
+#       - run: terraform init
+
+#       - run: terraform plan --var-file ../tfvars/dit.tfvars -out terraform.plan
+
+#       # generate plain output
+#       - run: terraform show -no-color terraform.plan > terraform.text
+
+#       - run : gh pr comment ${{ github.event.number }} --body-file terraform.text
+
+
+name: "Terraform Plan"
+inputs:
+  tf-cloud-token:
+    required: true
+    description: "Terraform Cloud API Token"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        cli_config_credentials_token: ${{inputs.tf-cloud-token}}
+        terraform_wrapper: false
+
+    - run: terraform init
+
+    - run: terraform plan --var-file ../tfvars/dit.tfvars -out terraform.plan
+   
