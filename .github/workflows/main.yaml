@@ -14,7 +14,7 @@ jobs:
       run:
         working-directory: Infrastructure/terraform/gcp/iac
     steps:
-      - uses: ./.github/workflows/terraform.yaml
+      - uses: ./.github/terraform.yaml
         with:
           tf-cloud-token: ${{secrets.TERRAFORM_API_TOKEN}}
           tfvar-name: "${GITHUB_BASE_REF}.tfvars"
