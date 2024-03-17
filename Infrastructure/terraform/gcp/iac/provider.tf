@@ -3,6 +3,14 @@ provider "google" {
 }
 
 terraform {
+  cloud {
+    organization = "github-actions646"
+
+    workspaces {
+      name = "github-actions"
+    }
+  }
+
   required_version = "~> 1.5.2"
   required_providers {
     google = {
