@@ -37,6 +37,9 @@ inputs:
   tf-cloud-token:
     required: true
     description: "Terraform Cloud API Token"
+  tfvar-name:
+    requried: true
+    description: "Terraform TFVAR File name"
 runs:
   using: "composite"
   steps:
@@ -48,5 +51,5 @@ runs:
 
     - run: terraform init
 
-    - run: terraform plan --var-file ../tfvars/dit.tfvars -out terraform.plan
+    - run: terraform plan --var-file ../tfvars/${{inputs.tfvar-name}} -out terraform.plan
    
